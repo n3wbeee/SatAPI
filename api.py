@@ -30,23 +30,22 @@ def startAPIServer():
     uvicorn.run(app, host="localhost", log_level="info")
 
 
-numberDict = {}
-script = driver.find_element(By.CSS_SELECTOR, 'body > script').get_attribute('innerHTML')
-for text in script.split('tips.a'):
-    try:
-        satStateCode = int(text[0:7])
-    except:
-        continue
-    else:
-        satStateCode = str(satStateCode)
-        numberDict['a' + satStateCode] = text[32:text.find("UTC\');")+3].replace('<br>', ' ')
-
-
 satCellList = []
 satState_x = {}
 if __name__ == "__main__":
     _thread.start_new_thread(startAPIServer, ())
     while True:
+        numberDict = {}
+        script = driver.find_element(By.CSS_SELECTOR, 'body > script').get_attribute('innerHTML')
+        for text in script.split('tips.a'):
+            try:
+                satStateCode = int(text[0:7])
+            except:
+                continue
+            else:
+                satStateCode = str(satStateCode)
+                numberDict['a' + satStateCode] = text[32:text.find("UTC\');") + 3].replace('<br>', ' ')
+
         for table in driver.find_elements(
                 By.CSS_SELECTOR, 'body > center:nth-child(8) > table > tbody'):
             for row in table.find_elements(By.TAG_NAME, "tr"):
