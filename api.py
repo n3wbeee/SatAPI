@@ -29,6 +29,7 @@ async def getSatState():
 def startAPIServer():
     uvicorn.run(app, host="localhost", log_level="info")
 
+
 numberDict = {}
 script = driver.find_element(By.CSS_SELECTOR, 'body > script').get_attribute('innerHTML')
 for text in script.split('tips.a'):
@@ -73,13 +74,11 @@ if __name__ == "__main__":
                                     colorCode = 'Conflicting reports'
                                 else:
                                     colorCode = 'ISS Crew (Voice) Active'
-                            satCell = {"status": colorCode, "count": cell.text, "reportState": numberDict.get(innerCode[n+14:n+21],'Not Found')}
+                            satCell = {"status": colorCode, "count": cell.text, "reportState": numberDict.get(innerCode[n+14:n+21], 'Not Found')}
                             satCellList.append(satCell)
                     else:
                         satCellList.append('NO Report')
                     satState_x = {"name": satName, "reports": satCellList}
                 satState.append(satState_x)
                 satCellList = []
-        print(satState)
-        break
-exitCode = input("PUSH ANY KEY TO EXIT")
+        time.sleep(60)
