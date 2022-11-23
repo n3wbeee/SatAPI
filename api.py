@@ -29,6 +29,17 @@ async def getSatState():
 def startAPIServer():
     uvicorn.run(app, host="localhost", log_level="info")
 
+numberDict = {}
+script = driver.find_element(By.CSS_SELECTOR, 'body > script').get_attribute('innerHTML')
+for text in script.split('tips.a'):
+    try:
+        satStateCode = int(text[0:7])
+    except:
+        continue
+    else:
+        satStateCode = str(satStateCode)
+        numberDict['a' + satStateCode] = text[32:text.find("UTC\');")+3].replace('<br>', ' ')
+
 
 satCellList = []
 satState_x = {}
@@ -62,7 +73,7 @@ if __name__ == "__main__":
                                     colorCode = 'Conflicting reports'
                                 else:
                                     colorCode = 'ISS Crew (Voice) Active'
-                            satCell = {"status": colorCode, "count": cell.text, "reportState": innerCode[n+14:n+21]}
+                            satCell = {"status": colorCode, "count": cell.text, "reportState": numberDict.get(innerCode[n+14:n+21],'Not Found')}
                             satCellList.append(satCell)
                     else:
                         satCellList.append('NO Report')
