@@ -51,7 +51,18 @@ if __name__ == "__main__":
                             m = int(outerCode.find('bgcolor'))
                             if m != -1:
                                 q = int(outerCode.find('"><a href'))
-                            satCell = outerCode[m + 9:q] + innerCode[n+14:n+21]
+                                colorCode = outerCode[m + 9:q]
+                                if colorCode == 'red':
+                                    colorCode = 'No signal'
+                                elif colorCode == '#4169E1':
+                                    colorCode = 'Transponder/Repeater active'
+                                elif colorCode == 'yellow':
+                                    colorCode = 'Telemetry/Beacon only'
+                                elif colorCode == 'orange':
+                                    colorCode = 'Conflicting reports'
+                                else:
+                                    colorCode = 'ISS Crew (Voice) Active'
+                            satCell = {"status": colorCode, "count": cell.text, "reportState": innerCode[n+14:n+21]}
                             satCellList.append(satCell)
                     else:
                         satCellList.append('NO Report')
