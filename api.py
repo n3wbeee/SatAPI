@@ -42,15 +42,19 @@ if __name__ == "__main__":
                     if cell.text:
                         innerCode = cell.get_attribute('innerHTML')
                         n = int(innerCode.find('docTips.show'))
-                        if n==-1:
+                        if n == -1:
                             n = int(innerCode.find('>', 2, -1))
                             p = int(innerCode.find('<', 2, -1))
                             satName = innerCode[n+1:p]
                         else:
-                            satCell = innerCode[n+14:n+21]
+                            outerCode = cell.get_attribute('outerHTML')
+                            m = int(outerCode.find('bgcolor'))
+                            if m != -1:
+                                q = int(outerCode.find('"><a href'))
+                            satCell = outerCode[m + 9:q] + innerCode[n+14:n+21]
                             satCellList.append(satCell)
                     else:
-                        continue
+                        satCellList.append('NO Report')
                     satState_x = {"name": satName, "reports": satCellList}
                 satState.append(satState_x)
                 satCellList = []
