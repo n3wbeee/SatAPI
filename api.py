@@ -31,12 +31,13 @@ def startAPIServer():
 
 
 satCellList = []
-satState_x = {}
+satStateBuffer = {}
 if __name__ == "__main__":
     _thread.start_new_thread(startAPIServer, ())
     while True:
         numberDict = {}
-        script = driver.find_element(By.CSS_SELECTOR, 'body > script').get_attribute('innerHTML')
+        script = driver.find_element(
+            By.CSS_SELECTOR, 'body > script').get_attribute('innerHTML')
         for text in script.split('tips.a'):
             try:
                 satStateCode = int(text[0:7])
@@ -44,12 +45,14 @@ if __name__ == "__main__":
                 continue
             else:
                 satStateCode = str(satStateCode)
-                numberDict['a' + satStateCode] = text[32:text.find("UTC\');") + 3].replace('<br>', ' ')
+                numberDict['a' + satStateCode] = text[32:
+                                                      text.find("UTC\');") + 3].replace('<br>', ' ')
 
         for table in driver.find_elements(
                 By.CSS_SELECTOR, 'body > center:nth-child(8) > table > tbody'):
             for row in table.find_elements(By.TAG_NAME, "tr"):
                 for cell in row.find_elements(By.TAG_NAME, "td"):
+                    satName = ""
                     if cell.text:
                         innerCode = cell.get_attribute('innerHTML')
                         n = int(innerCode.find('docTips.show'))
@@ -58,6 +61,7 @@ if __name__ == "__main__":
                             p = int(innerCode.find('<', 2, -1))
                             satName = innerCode[n+1:p]
                         else:
+                            colorCode = ""
                             outerCode = cell.get_attribute('outerHTML')
                             m = int(outerCode.find('bgcolor'))
                             if m != -1:
@@ -73,11 +77,12 @@ if __name__ == "__main__":
                                     colorCode = 'Conflicting reports'
                                 else:
                                     colorCode = 'ISS Crew (Voice) Active'
-                            satCell = {"status": colorCode, "count": cell.text, "reportState": numberDict.get(innerCode[n+14:n+21], 'Not Found')}
+                            satCell = {"status": colorCode, "count": cell.text, "reportState": numberDict.get(
+                                innerCode[n+14:n+21], 'Not Found')}
                             satCellList.append(satCell)
                     else:
                         satCellList.append('NO Report')
-                    satState_x = {"name": satName, "reports": satCellList}
-                satState.append(satState_x)
+                    satStateBuffer = {"name": satName, "reports": satCellList}
+                satState.append(satStateBuffer)
                 satCellList = []
         time.sleep(60)
