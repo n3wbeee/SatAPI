@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.edge.options import Options
 from selenium import webdriver
 import time
 import _thread
@@ -22,7 +23,12 @@ satState = [{
 }
 ]
 
-driver = webdriver.ChromiumEdge()
+options = Options()
+options.add_argument("--no-sandbox")
+options.add_argument("--headless")
+options.add_argument("--disable-dev-shm-usage")
+
+driver = webdriver.ChromiumEdge(options=options)
 driver.get("https://www.amsat.org/status/")
 
 
