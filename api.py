@@ -32,7 +32,7 @@ driver = webdriver.ChromiumEdge(options=options)
 driver.get("https://www.amsat.org/status/")
 
 
-@ app.get("/api/sat")  # Create a GET API
+@ app.get("/sat")  # Create a GET API
 async def getSatState():
     return satState  # Return the data
 
@@ -105,4 +105,4 @@ if __name__ == "__main__":
                 satState.append(satStateBuffer)
                 satCellList = []  # Clear the satellite cell list
 
-        time.sleep(60)
+        time.sleep(5)
