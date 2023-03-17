@@ -19,13 +19,14 @@ jobs:
         ssh_private_key: '${{ secrets.ACCESS_KEY_SECRET }}'
         remote_path: '/usr/server/api/'
         
-    - name: test
-      run: echo ${{ steps.Upload_to_Server.outputs }}
         
-    #- name: Start running
-    #  uses: garygrossgarten/github-action-ssh@0.7.0
-    #  with:
-    #    command: 'python /usr/server/api/api.py'
-    #    host: ${{ secrets.SERVER_IP }}
-    #    username: 'root'
-    #    privateKey: ${{ secrets.ACCESS_KEY_SECRET }}
+    - name: Start_Running
+      uses: garygrossgarten/github-action-ssh@0.7.0
+      with:
+        command: 'python /usr/server/api/api.py'
+        host: ${{ secrets.SERVER_IP }}
+        username: 'root'
+        privateKey: ${{ secrets.ACCESS_KEY_SECRET }}
+        
+    - name: Test
+      run: echo ${{ steps.Start_Running.outputs }}
