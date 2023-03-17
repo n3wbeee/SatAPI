@@ -11,6 +11,11 @@ jobs:
       with: 
         fetch-depth: 1
         
-    - name: list
-      run: |
-        ls
+    - name: Link to Server
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.4 
+      with:
+        username: '${{ secrets.ACCESS_KEY_ID }}'
+        server: '${{ secrets.SERVER_IP }}'
+        ssh_private_key: '${{ secrets.ACCESS_KEY_SECRET }}'
+        remote_path: '/usr/server/api/'
+        
