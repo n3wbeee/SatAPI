@@ -11,7 +11,7 @@ jobs:
       with: 
         fetch-depth: 1
         
-    - name: Link to Server
+    - name: Upload to Server
       uses: wlixcc/SFTP-Deploy-Action@v1.2.4 
       with:
         username: 'root'
@@ -19,3 +19,10 @@ jobs:
         ssh_private_key: '${{ secrets.ACCESS_KEY_SECRET }}'
         remote_path: '/usr/server/api/'
         
+    - name: Start running
+      uses: garygrossgarten/github-action-ssh@0.7.0
+      with:
+        command: 'python /usr/server/api/api.py'
+        host: ${{ secrets.SERVER_IP }}
+        username: 'root'
+        privateKey: ${{ secrets.ACCESS_KEY_SECRET }}
