@@ -23,7 +23,7 @@ jobs:
     - name: Start_Running
       uses: garygrossgarten/github-action-ssh@0.7.0
       with:
-        command: 'python /usr/server/api/api.py'
+        command: 'nohup python -u /usr/server/api/api.py >> main.out 2>&1 &'
         host: ${{ secrets.SERVER_IP }}
         username: 'root'
         privateKey: ${{ secrets.ACCESS_KEY_SECRET }}
