@@ -105,4 +105,5 @@ if __name__ == "__main__":
                 satState.append(satStateBuffer)
                 satCellList = []  # Clear the satellite cell list
 
-        time.sleep(5)
+        time.sleep(600)
+        satState = []
