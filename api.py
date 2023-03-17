@@ -66,8 +66,8 @@ if __name__ == "__main__":
         for table in driver.find_elements(
                 By.CSS_SELECTOR, 'body > center:nth-child(8) > table > tbody'):  # Get the table
             for row in table.find_elements(By.TAG_NAME, "tr"):  # Get the row
+                satName = ""
                 for cell in row.find_elements(By.TAG_NAME, "td"):  # Get the cell
-                    satName = ""
                     if cell.text:  # If the cell is not empty
                         if cell.text.isdigit():  # If the cell is a number
                             colorCode = ""
@@ -89,10 +89,10 @@ if __name__ == "__main__":
                                     colorCode = 'ISS Crew (Voice) Active'
 
                                 innerCode = cell.get_attribute('innerHTML')
-                                lower = int(innerCode.find('>', 2, -1))
+                                lower = int(innerCode.find("('", 2, -1))
                                 upper = int(innerCode.find('<', 2, -1))
                                 satCell = {"status": colorCode, "count": cell.text, "reportState": numberDict.get(
-                                    innerCode[lower+14: upper+21], 'Not Found')}
+                                    innerCode[lower + 2: lower + 9], 'Not Found')}
                                 satCellList.append(satCell)
                         else:  # If the cell is a satellite name
                             satName = cell.text
