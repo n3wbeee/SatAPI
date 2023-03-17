@@ -11,7 +11,7 @@ jobs:
       with: 
         fetch-depth: 1
         
-    - name: Upload to Server
+    - name: Upload_to_Server
       uses: wlixcc/SFTP-Deploy-Action@v1.2.4 
       with:
         username: 'root'
@@ -20,7 +20,7 @@ jobs:
         remote_path: '/usr/server/api/'
         
     - name: test
-      run: echo ${{ jobs.Release.outputs }}
+      run: echo ${{ steps.Upload_to_Server.outputs }}
         
     #- name: Start running
     #  uses: garygrossgarten/github-action-ssh@0.7.0
