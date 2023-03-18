@@ -5,6 +5,7 @@ import time
 import _thread
 import uvicorn
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
 
 # TODO: Add a API function that can add data to the database
 # TODO: Connect to db
@@ -14,14 +15,15 @@ app = FastAPI()  # Create a FastAPI instance
 
 # Template
 satState = [{
-    "name": "AO-7",
-    "reports": [{
-            "status": "active",
-            "count": 4,
-            "reportState": "Heard JA2NLT PM94ex 2022-11-16 0:46-:59 UTC",
+          "name": "AO-7",
+          "reports": [
+           {
+              "status": "active",
+              "count": 4,
+             "reportState": "Heard JA2NLT PM94ex 2022-11-16 0:46-:59 UTC"
+           }]
     }]
-}
-]
+
 
 options = Options()
 options.add_argument("--no-sandbox")
@@ -34,7 +36,7 @@ driver.get("https://www.amsat.org/status/")
 
 @ app.get("/sat")  # Create a GET API
 async def getSatState():
-    return satState  # Return the data
+    return satState_json  # Return the data
 
 
 def startAPIServer():
@@ -104,6 +106,7 @@ if __name__ == "__main__":
                 # Add the satellite state buffer to the satellite state list
                 satState.append(satStateBuffer)
                 satCellList = []  # Clear the satellite cell list
-
+        satState_dict = {"data": satState}
+        satState_json = jsonable_encoder(satState_dict)
         time.sleep(600)
-        satState = []
+        del satState_dict
