@@ -14,15 +14,7 @@ from fastapi.encoders import jsonable_encoder
 app = FastAPI()  # Create a FastAPI instance
 
 # Template
-satState = [{
-          "name": "AO-7",
-          "reports": [
-           {
-              "status": "active",
-              "count": 4,
-             "reportState": "Heard JA2NLT PM94ex 2022-11-16 0:46-:59 UTC"
-           }]
-    }]
+satState = []
 
 
 options = Options()
@@ -106,8 +98,9 @@ if __name__ == "__main__":
                 # Add the satellite state buffer to the satellite state list
                 satState.append(satStateBuffer)
                 satCellList = []  # Clear the satellite cell list
+        satState.pop(0)
         satState_dict = {"data": satState}
         satState = []
         satState_json = jsonable_encoder(satState_dict)
-        time.sleep(600)
+        time.sleep(0)
         del satState_dict
