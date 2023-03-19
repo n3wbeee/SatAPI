@@ -6,12 +6,21 @@ import _thread
 import uvicorn
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
+from fastapi import Response
 
 # TODO: Add a API function that can add data to the database
 # TODO: Connect to db
 # !!!   Performance not tested yet
 
 app = FastAPI()  # Create a FastAPI instance
+@app.get("/sat")
+async def get_item(response: Response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["Access-Control-Allow-Methods"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    return satState_json
+
 
 # Template
 satState = []
@@ -24,11 +33,6 @@ options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.ChromiumEdge(options=options)
 driver.get("https://www.amsat.org/status/")
-
-
-@ app.get("/sat")  # Create a GET API
-async def getSatState():
-    return satState_json  # Return the data
 
 
 def startAPIServer():
