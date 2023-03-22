@@ -103,7 +103,8 @@ if __name__ == "__main__":
                 satState.append(satStateBuffer)
                 satCellList = []  # Clear the satellite cell list
         satState.pop(0)
-        satState_dict = {"data": satState}
+        t = time.ctime()
+        satState_dict = {"data": satState, "time": t}
         satState = []
         satState_json = jsonable_encoder(satState_dict)
         time.sleep(0)
