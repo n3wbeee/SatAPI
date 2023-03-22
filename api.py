@@ -94,6 +94,11 @@ if __name__ == "__main__":
                                 satCellList.append(satCell)
                         else:  # If the cell is a satellite name
                             satName = cell.text
+                            if satName == "_":
+                                namemark = row.text.find(" ")
+                                satName = row.text[0: namemark]
+                            else:
+                                continue
                     else:
                         satCellList.append('NO Report')  # If the cell is empty
                     # Create a satellite state buffer
