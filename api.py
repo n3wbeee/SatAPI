@@ -67,7 +67,7 @@ if __name__ == "__main__":
                 satName = ""
                 for cell in row.find_elements(By.TAG_NAME, "td"):  # Get the cell
                     if cell.text:  # If the cell is not empty
-                        if cell.text.isdigit():  # If the cell is a number
+                        if cell.text.isdigit() or cell.text is '_':  # If the cell is a number
                             colorCode = ""
                             outerCode = cell.get_attribute('outerHTML')
                             colorLower = int(outerCode.find('bgcolor'))
@@ -94,11 +94,6 @@ if __name__ == "__main__":
                                 satCellList.append(satCell)
                         else:  # If the cell is a satellite name
                             satName = cell.text
-                            if satName == "_":
-                                namemark = row.text.find(" ")
-                                satName = row.text[0: namemark]
-                            else:
-                                continue
                     else:
                         satCellList.append('NO Report')  # If the cell is empty
                     # Create a satellite state buffer
