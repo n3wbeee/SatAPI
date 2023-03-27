@@ -108,4 +108,4 @@ if __name__ == "__main__":
         satState = []
         satState_json = jsonable_encoder(satState_dict)
         time.sleep(0)
-        del satState_dict
+        satState_dict = {}
