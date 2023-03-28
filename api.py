@@ -32,7 +32,6 @@ options.add_argument("--headless")
 options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.ChromiumEdge(options=options)
-driver.get("https://www.amsat.org/status/")
 
 
 def startAPIServer():
@@ -48,6 +47,7 @@ if __name__ == "__main__":
     _thread.start_new_thread(startAPIServer, ())
 
     while True:
+        driver.get("https://www.amsat.org/status/")
         numberDict = {}
         script = driver.find_element(
             By.CSS_SELECTOR, 'body > script').get_attribute('innerHTML')  # Get the script
